@@ -1,0 +1,4 @@
+import {
+  "alicedhaha/moonrcinspect/src/cli",
+  "moonbitlang/core/json",
+} for "test"

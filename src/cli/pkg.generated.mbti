@@ -1,0 +1,49 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "alicedhaha/moonrcinspect/src/cli"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn execute(CliConfig, String) -> CliOutcome
+
+pub fn parse_config(Array[String]) -> Result[CliConfig, String]
+
+pub fn usage() -> String
+
+// Errors
+
+// Types and methods
+pub(all) struct CliConfig {
+  command : Command
+  input : String
+  format : OutputFormat
+  output : String?
+  net : String?
+  strict : Bool
+} derive(@debug.Debug)
+
+pub(all) struct CliOutcome {
+  content : String
+  failed : Bool
+} derive(@debug.Debug)
+
+pub(all) enum Command {
+  Parse
+  Analyze
+  Audit
+  Visualize
+  Report
+} derive(Eq, @debug.Debug)
+
+pub(all) enum OutputFormat {
+  Text
+  Json
+  Dot
+  Markdown
+} derive(Eq, @debug.Debug)
+
+// Type aliases
+
+// Traits

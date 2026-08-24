@@ -1,0 +1,12 @@
+import {
+  "alicedhaha/moonrcinspect/src/cli",
+  "moonbitlang/core/env",
+  "moonbitlang/core/encoding/utf8",
+  "moonbitlang/async",
+  "moonbitlang/async/fs",
+  "moonbitlang/async/stdio",
+}
+
+pkgtype(kind: "executable")
+
+supported_targets = "native"
