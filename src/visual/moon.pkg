@@ -1,0 +1,8 @@
+import {
+  "alicedhaha/moonrcinspect/src/model",
+}
+
+import {
+  "alicedhaha/moonrcinspect/src/parser",
+  "moonbitlang/core/json",
+} for "test"
