@@ -1,0 +1,11 @@
+import {
+  "alicedhaha/moonrcinspect/src/diagnostic",
+  "alicedhaha/moonrcinspect/src/model",
+  "alicedhaha/moonrcinspect/src/graph",
+  "alicedhaha/moonrcinspect/src/analyzer",
+}
+
+import {
+  "alicedhaha/moonrcinspect/src/parser",
+  "alicedhaha/moonrcinspect/src/analyzer",
+} for "test"

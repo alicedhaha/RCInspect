@@ -1,0 +1,46 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "alicedhaha/moonrcinspect/src/audit"
+
+import {
+  "alicedhaha/moonrcinspect/src/diagnostic",
+  "alicedhaha/moonrcinspect/src/model",
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn audit(@model.RCNetwork, config? : AuditConfig) -> AuditReport
+
+pub fn audit_with_rules(@model.RCNetwork, Array[AuditRule], config? : AuditConfig) -> AuditReport
+
+pub fn default_rules() -> Array[AuditRule]
+
+// Errors
+
+// Types and methods
+pub(all) struct AuditConfig {
+  strict : Bool
+  capacitance_relative_tolerance : Double
+  complexity_threshold : Int
+} derive(@debug.Debug)
+pub fn AuditConfig::default() -> Self
+
+pub(all) struct AuditReport {
+  diagnostics : Array[@diagnostic.Diagnostic]
+  error_count : Int
+  warning_count : Int
+  info_count : Int
+  passed : Bool
+} derive(@debug.Debug)
+
+pub(all) enum AuditRule {
+  HeaderRule
+  NameMapRule
+  NetIntegrityRule
+  RcValueRule
+  TopologyRule
+  ComplexityRule
+} derive(Eq, @debug.Debug)
+
+// Type aliases
+
+// Traits
