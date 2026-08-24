@@ -1,0 +1,5 @@
+import {
+  "alicedhaha/moonrcinspect/src/diagnostic",
+  "alicedhaha/moonrcinspect/src/model",
+  "moonbitlang/core/string",
+}

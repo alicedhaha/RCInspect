@@ -1,0 +1,107 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "alicedhaha/moonrcinspect/src/parser"
+
+import {
+  "alicedhaha/moonrcinspect/src/diagnostic",
+  "alicedhaha/moonrcinspect/src/model",
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn has_errors(ParseResult) -> Bool
+
+pub fn lex(String, file? : String) -> LexResult
+
+pub fn parse(String, file? : String) -> ParseResult
+
+// Errors
+
+// Types and methods
+pub(all) struct AstCapacitor {
+  id : Int
+  first : String
+  second : String?
+  value : Double
+  span : @diagnostic.SourceSpan
+} derive(@debug.Debug)
+
+pub(all) struct AstConnection {
+  kind : String
+  name : String
+  direction : String
+  coordinate : (Double, Double)?
+  load : Double?
+  driving_cell : String?
+  span : @diagnostic.SourceSpan
+} derive(@debug.Debug)
+
+pub(all) struct AstHeader {
+  keyword : String
+  values : Array[String]
+  span : @diagnostic.SourceSpan
+} derive(@debug.Debug)
+
+pub(all) struct AstNameMapEntry {
+  index : Int
+  name : String
+  span : @diagnostic.SourceSpan
+} derive(@debug.Debug)
+
+pub(all) struct AstNet {
+  name : String
+  declared_capacitance : Double
+  connections : Array[AstConnection]
+  capacitors : Array[AstCapacitor]
+  resistors : Array[AstResistor]
+  span : @diagnostic.SourceSpan
+} derive(@debug.Debug)
+
+pub(all) struct AstPort {
+  name : String
+  direction : String
+  coordinate : (Double, Double)?
+  span : @diagnostic.SourceSpan
+} derive(@debug.Debug)
+
+pub(all) struct AstResistor {
+  id : Int
+  first : String
+  second : String
+  value : Double
+  span : @diagnostic.SourceSpan
+} derive(@debug.Debug)
+
+pub(all) struct LexResult {
+  lines : Array[TokenLine]
+  diagnostics : Array[@diagnostic.Diagnostic]
+} derive(@debug.Debug)
+
+pub(all) struct ParseResult {
+  ast : SpefAst
+  network : @model.RCNetwork
+  diagnostics : Array[@diagnostic.Diagnostic]
+} derive(@debug.Debug)
+
+type Section derive(Eq, @debug.Debug)
+
+pub(all) struct SpefAst {
+  headers : Array[AstHeader]
+  name_map : Array[AstNameMapEntry]
+  ports : Array[AstPort]
+  nets : Array[AstNet]
+} derive(@debug.Debug)
+
+pub(all) struct Token {
+  text : String
+  quoted : Bool
+  span : @diagnostic.SourceSpan
+} derive(Eq, @debug.Debug)
+
+pub(all) struct TokenLine {
+  number : Int
+  tokens : Array[Token]
+} derive(Eq, @debug.Debug)
+
+// Type aliases
+
+// Traits
