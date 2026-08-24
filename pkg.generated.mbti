@@ -1,0 +1,26 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "alicedhaha/moonrcinspect"
+
+import {
+  "alicedhaha/moonrcinspect/src/analyzer",
+  "alicedhaha/moonrcinspect/src/audit",
+  "alicedhaha/moonrcinspect/src/model",
+  "alicedhaha/moonrcinspect/src/parser",
+}
+
+// Values
+pub fn analyze(@model.RCNetwork) -> @analyzer.DesignMetrics
+
+pub fn audit(@model.RCNetwork, config? : @audit.AuditConfig) -> @audit.AuditReport
+
+pub fn elmore_delay(@model.Net) -> @analyzer.ElmoreResult
+
+pub fn parse(String, file? : String) -> @parser.ParseResult
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
