@@ -1,0 +1,169 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "alicedhaha/moonrcinspect/src/model"
+
+import {
+  "alicedhaha/moonrcinspect/src/diagnostic",
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn default_capacitance_unit() -> UnitScale
+
+pub fn default_inductance_unit() -> UnitScale
+
+pub fn default_resistance_unit() -> UnitScale
+
+pub fn default_time_unit() -> UnitScale
+
+// Errors
+
+// Types and methods
+pub(all) struct Capacitor {
+  id : Int
+  from_node : Int
+  to_node : Int?
+  capacitance : Double
+  span : @diagnostic.SourceSpan?
+} derive(@debug.Debug)
+
+pub(all) struct Connection {
+  node_id : Int
+  direction : Direction
+  coordinate : Point?
+  load_capacitance : Double?
+  driving_cell : String?
+  span : @diagnostic.SourceSpan?
+} derive(@debug.Debug)
+
+pub(all) struct Design {
+  header : DesignHeader
+  name_map : Array[NameMapEntry]
+  ports : Array[PortDecl]
+  nets : Array[Net]
+} derive(@debug.Debug)
+
+pub(all) struct DesignHeader {
+  spef_version : String?
+  design_name : String?
+  date : String?
+  vendor : String?
+  program : String?
+  program_version : String?
+  design_flow : Array[String]
+  divider : String
+  delimiter : String
+  bus_delimiter_open : String
+  bus_delimiter_close : String
+  time_unit : UnitScale
+  capacitance_unit : UnitScale
+  resistance_unit : UnitScale
+  inductance_unit : UnitScale
+} derive(@debug.Debug)
+pub fn DesignHeader::default() -> Self
+
+pub(all) enum Direction {
+  Input
+  Output
+  Inout
+  Unknown
+} derive(Eq, @debug.Debug)
+pub fn Direction::from_spef(String) -> Self
+pub fn Direction::spef_code(Self) -> String
+
+pub(all) struct NameMapEntry {
+  index : Int
+  name : String
+  span : @diagnostic.SourceSpan?
+} derive(@debug.Debug)
+
+pub(all) struct Net {
+  id : Int
+  name : String
+  declared_capacitance : Double
+  nodes : Array[Node]
+  connections : Array[Connection]
+  resistors : Array[Resistor]
+  capacitors : Array[Capacitor]
+  span : @diagnostic.SourceSpan?
+} derive(@debug.Debug)
+pub fn Net::coupling_capacitance(Self) -> Double
+pub fn Net::driver_nodes(Self) -> Array[Int]
+pub fn Net::effective_capacitance(Self) -> Double
+pub fn Net::find_node(Self, Int) -> Node?
+pub fn Net::ground_capacitance(Self) -> Double
+pub fn Net::pins(Self) -> Array[Pin]
+pub fn Net::total_resistance(Self) -> Double
+
+pub(all) struct Node {
+  id : Int
+  name : String
+  kind : NodeKind
+  span : @diagnostic.SourceSpan?
+} derive(@debug.Debug)
+
+pub(all) enum NodeKind {
+  Port
+  InstancePin
+  Internal
+  External
+} derive(Eq, @debug.Debug)
+
+pub(all) struct Pin {
+  node_id : Int
+  name : String
+  kind : NodeKind
+  direction : Direction
+  coordinate : Point?
+  load_capacitance : Double?
+  driving_cell : String?
+} derive(@debug.Debug)
+
+pub(all) struct Point {
+  x : Double
+  y : Double
+} derive(@debug.Debug)
+
+pub(all) struct PortDecl {
+  name : String
+  direction : Direction
+  coordinate : Point?
+  span : @diagnostic.SourceSpan?
+} derive(@debug.Debug)
+
+pub(all) enum Quantity {
+  Time
+  Capacitance
+  Resistance
+  Inductance
+} derive(Eq, @debug.Debug)
+
+pub(all) struct RCNetwork {
+  header : DesignHeader
+  name_map : Array[NameMapEntry]
+  ports : Array[PortDecl]
+  nets : Array[Net]
+  diagnostics : Array[@diagnostic.Diagnostic]
+} derive(@debug.Debug)
+pub fn RCNetwork::design(Self) -> Design
+pub fn RCNetwork::empty() -> Self
+
+pub(all) struct Resistor {
+  id : Int
+  from_node : Int
+  to_node : Int
+  resistance : Double
+  span : @diagnostic.SourceSpan?
+} derive(@debug.Debug)
+
+pub(all) struct UnitScale {
+  quantity : Quantity
+  magnitude : Double
+  symbol : String
+  multiplier : Double
+} derive(Eq, @debug.Debug)
+pub fn UnitScale::new(Quantity, Double, String) -> Self?
+pub fn UnitScale::to_si(Self, Double) -> Double
+
+// Type aliases
+
+// Traits
