@@ -117,7 +117,7 @@ moon run cmd/moonrc -- --help
 安装已发布的库版本：
 
 ```bash
-moon add alicedhaha/moonrcinspect@0.2.0
+moon add alicedhaha/moonrcinspect@0.2.1
 ```
 
 ## 快速开始

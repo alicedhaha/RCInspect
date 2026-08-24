@@ -2,6 +2,11 @@
 
 All notable changes follow a simple versioned release log.
 
+## 0.2.1 - 2026-08-24
+
+- Updated the contest proposal with the delivered 5k+ production-code scope, current feature set,
+  verification figures and versioned Mooncakes release link.
+
 ## 0.2.0 - 2026-08-24
 
 - Added minimum-resistance and minimum-hop node path queries.
