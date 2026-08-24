@@ -3,6 +3,7 @@ name: CI
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -16,23 +17,38 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      - uses: moonbitlang/setup-moonbit@v1
+        with:
+          persist-credentials: false
+      - name: Install MoonBit (Unix)
+        if: ${{ matrix.os != 'windows-latest' }}
+        shell: bash
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+      - name: Install MoonBit (Windows)
+        if: ${{ matrix.os == 'windows-latest' }}
+        shell: pwsh
+        run: |
+          Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+          irm https://cli.moonbitlang.com/install/powershell.ps1 | iex
+          "$HOME\.moon\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
       - name: Toolchain
-        run: moon version --all
+        run: |
+          moon version --all
+          moon update
       - name: Format
         shell: bash
         run: |
-          moon fmt
-          git diff --exit-code
+          moon fmt --check
       - name: Generate interfaces
         shell: bash
         run: |
           moon info
           git diff --exit-code
       - name: Check
-        run: moon check --deny-warn
+        run: moon check --target all --deny-warn
       - name: Test
-        run: moon test --deny-warn
+        run: moon test --target all --deny-warn
       - name: Build CLI
         run: moon build cmd/moonrc --target native
       - name: Smoke test

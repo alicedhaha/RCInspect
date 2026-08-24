@@ -1,5 +1,9 @@
 # MoonRCInspect
 
+[![CI](https://github.com/alicedhaha/RCInspect/actions/workflows/ci.yml/badge.svg)](https://github.com/alicedhaha/RCInspect/actions/workflows/ci.yml)
+
+项目链接：[GitHub](https://github.com/alicedhaha/RCInspect) · [GitLink](https://gitlink.org.cn/alicedhh/RCInspect) · [Mooncakes](https://mooncakes.io/docs/alicedhaha/moonrcinspect) · [项目申报书](项目申报书.md)
+
 MoonRCInspect 是一个使用 MoonBit 原生实现的 SPEF（Standard Parasitic Exchange
 Format）寄生 RC 网络解析、分析、审计与可视化工具。它面向布局布线后的寄生参数检查、
 EDA 数据流水线、教学和轻量级自动化，不只是一个文本解析 Demo。
