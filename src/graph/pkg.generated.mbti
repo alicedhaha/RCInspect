@@ -1,0 +1,44 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "alicedhaha/moonrcinspect/src/graph"
+
+import {
+  "alicedhaha/moonrcinspect/src/model",
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn reachable_from(RCGraph, Int) -> Array[Int]
+
+pub fn summarize(@model.Net) -> TopologySummary
+
+// Errors
+
+// Types and methods
+pub(all) struct Edge {
+  to : Int
+  resistor_id : Int
+  resistance : Double
+} derive(@debug.Debug)
+
+pub(all) struct RCGraph {
+  adjacency : Array[Array[Edge]]
+  resistor_count : Int
+} derive(@debug.Debug)
+pub fn RCGraph::degree(Self, Int) -> Int
+pub fn RCGraph::from_net(@model.Net) -> Self
+pub fn RCGraph::neighbors(Self, Int) -> Array[Edge]
+pub fn RCGraph::node_count(Self) -> Int
+
+pub(all) struct TopologySummary {
+  node_count : Int
+  resistor_count : Int
+  connected_components : Int
+  isolated_nodes : Array[Int]
+  has_cycle : Bool
+  driver_nodes : Array[Int]
+  max_degree : Int
+} derive(@debug.Debug)
+
+// Type aliases
+
+// Traits
