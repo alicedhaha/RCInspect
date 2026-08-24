@@ -1,0 +1,6 @@
+#!/bin/sh
+
+set -eu
+
+moon check --deny-warn
+moon test --deny-warn
