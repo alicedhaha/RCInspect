@@ -1,0 +1,72 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "alicedhaha/moonrcinspect/src/reduction"
+
+import {
+  "alicedhaha/moonrcinspect/src/model",
+  "alicedhaha/moonrcinspect/src/path",
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn reduce_design(@model.RCNetwork) -> DesignReduction
+
+pub fn reduce_net(@model.Net) -> NetReduction
+
+// Errors
+
+// Types and methods
+pub(all) struct DesignReduction {
+  nets : Array[NetReduction]
+  exact_tree_count : Int
+  approximate_count : Int
+  unavailable_count : Int
+  total_near_capacitance : Double
+  total_far_capacitance : Double
+} derive(@debug.Debug)
+
+pub(all) struct NetReduction {
+  status : ReductionStatus
+  net_name : String
+  driver_node : String?
+  pi : PiModel
+  critical_path : @path.PathResult?
+  sinks : Array[SinkEstimate]
+  local_node_count : Int
+  reachable_node_count : Int
+  coupling_policy : String
+} derive(@debug.Debug)
+pub fn NetReduction::worst_sink(Self) -> SinkEstimate?
+
+pub(all) struct PiModel {
+  near_capacitance : Double
+  far_capacitance : Double
+  series_resistance : Double
+  total_capacitance : Double
+  first_moment : Double
+} derive(@debug.Debug)
+
+pub(all) enum ReductionStatus {
+  ExactTree
+  ApproximateGraph
+  EmptyNetwork
+  NoDriver
+  MultipleDrivers
+  Disconnected
+  InvalidElectricalValue
+} derive(Eq, @debug.Debug)
+pub fn ReductionStatus::label(Self) -> String
+
+pub(all) struct SinkEstimate {
+  node_id : Int
+  node_name : String
+  direction : @model.Direction
+  pin_load_capacitance : Double
+  local_parasitic_capacitance : Double
+  path_resistance : Double
+  elmore_delay : Double?
+  reachable : Bool
+} derive(@debug.Debug)
+
+// Type aliases
+
+// Traits

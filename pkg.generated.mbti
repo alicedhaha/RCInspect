@@ -4,18 +4,29 @@ package "alicedhaha/moonrcinspect"
 import {
   "alicedhaha/moonrcinspect/src/analyzer",
   "alicedhaha/moonrcinspect/src/audit",
+  "alicedhaha/moonrcinspect/src/coupling",
   "alicedhaha/moonrcinspect/src/model",
   "alicedhaha/moonrcinspect/src/parser",
+  "alicedhaha/moonrcinspect/src/path",
+  "alicedhaha/moonrcinspect/src/reduction",
 }
 
 // Values
 pub fn analyze(@model.RCNetwork) -> @analyzer.DesignMetrics
 
+pub fn analyze_coupling(@model.RCNetwork) -> @coupling.CouplingReport
+
 pub fn audit(@model.RCNetwork, config? : @audit.AuditConfig) -> @audit.AuditReport
 
 pub fn elmore_delay(@model.Net) -> @analyzer.ElmoreResult
 
+pub fn minimum_resistance_path(@model.Net, String, String) -> @path.PathResult
+
 pub fn parse(String, file? : String) -> @parser.ParseResult
+
+pub fn reduce(@model.RCNetwork) -> @reduction.DesignReduction
+
+pub fn resistance_matrix(@model.Net) -> @path.PathMatrix
 
 // Errors
 

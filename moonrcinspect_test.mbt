@@ -20,4 +20,9 @@ test "root facade supports parse analyze audit workflow" {
     @moonrcinspect.elmore_delay(parsed.network.nets[0]).max_delay_seconds,
     0.0,
   )
+  assert_eq(@moonrcinspect.resistance_matrix(parsed.network.nets[0]).nodes, [
+    "n",
+  ])
+  assert_eq(@moonrcinspect.analyze_coupling(parsed.network).link_count, 0)
+  assert_eq(@moonrcinspect.reduce(parsed.network).exact_tree_count, 1)
 }

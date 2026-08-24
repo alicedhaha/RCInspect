@@ -47,3 +47,16 @@ promotes warnings after all rules run, keeping rule behavior deterministic.
 The root package offers parse, analyze, audit and Elmore facade functions. Package-level APIs are
 available for advanced consumers. `src/cli` is pure and testable; only `cmd/moonrc` imports async
 filesystem and stdio packages.
+
+## Path, coupling and reduction layers
+
+`src/path` provides deterministic breadth-first and Dijkstra queries over the resistor graph,
+including source reachability, critical routes, all-pairs resistance matrices and electrical
+diameter. Invalid resistance values and unresolved endpoints produce explicit statuses.
+
+`src/coupling` resolves expanded external node names against other distributed networks. It
+retains unresolved coupling endpoints, aggregates canonical net pairs and ranks per-net partners.
+
+`src/reduction` combines path resistance, local parasitic capacitance, pin load and Elmore results
+into a first-moment-preserving two-capacitance model. Trees and cyclic screening approximations are
+distinguished so downstream consumers do not mistake an approximation for signoff timing.

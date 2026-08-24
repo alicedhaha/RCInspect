@@ -5,4 +5,7 @@ import {
   "alicedhaha/moonrcinspect/src/audit",
   "alicedhaha/moonrcinspect/src/visual",
   "alicedhaha/moonrcinspect/src/report",
+  "alicedhaha/moonrcinspect/src/path",
+  "alicedhaha/moonrcinspect/src/coupling",
+  "alicedhaha/moonrcinspect/src/reduction",
 }

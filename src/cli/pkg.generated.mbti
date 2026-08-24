@@ -21,6 +21,9 @@ pub(all) struct CliConfig {
   format : OutputFormat
   output : String?
   net : String?
+  from_node : String?
+  to_node : String?
+  path_mode : PathMode
   strict : Bool
 } derive(@debug.Debug)
 
@@ -35,6 +38,10 @@ pub(all) enum Command {
   Audit
   Visualize
   Report
+  Path
+  Coupling
+  Reduce
+  Matrix
 } derive(Eq, @debug.Debug)
 
 pub(all) enum OutputFormat {
@@ -42,6 +49,13 @@ pub(all) enum OutputFormat {
   Json
   Dot
   Markdown
+  Csv
+  Sarif
+} derive(Eq, @debug.Debug)
+
+pub(all) enum PathMode {
+  MinimumResistance
+  MinimumHops
 } derive(Eq, @debug.Debug)
 
 // Type aliases

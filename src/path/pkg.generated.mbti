@@ -1,0 +1,97 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "alicedhaha/moonrcinspect/src/path"
+
+import {
+  "alicedhaha/moonrcinspect/src/model",
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn critical_resistance_path(@model.Net) -> PathResult
+
+pub fn diameter_path(@model.Net) -> PathResult
+
+pub fn minimum_hop_path(@model.Net, String, String) -> PathResult
+
+pub fn minimum_resistance_path(@model.Net, String, String) -> PathResult
+
+pub fn resistance_matrix(@model.Net) -> PathMatrix
+
+pub fn resistance_reachability(@model.Net, String) -> ReachabilityResult
+
+// Errors
+
+// Types and methods
+pub(all) struct PathDistance {
+  source : String
+  target : String
+  reachable : Bool
+  resistance : Double
+  edge_count : Int
+} derive(@debug.Debug)
+
+pub(all) struct PathHop {
+  node_id : Int
+  node_name : String
+  via_resistor_id : Int?
+  edge_resistance : Double
+  cumulative_resistance : Double
+} derive(@debug.Debug)
+
+pub(all) struct PathMatrix {
+  status : PathStatus
+  net_name : String
+  nodes : Array[String]
+  distances : Array[PathDistance]
+  reachable_pair_count : Int
+  unreachable_pair_count : Int
+  diameter : PathDistance?
+} derive(@debug.Debug)
+pub fn PathMatrix::find(Self, String, String) -> PathDistance?
+
+pub(all) struct PathResult {
+  status : PathStatus
+  net_name : String
+  source : String
+  target : String
+  hops : Array[PathHop]
+  total_resistance : Double
+  edge_count : Int
+} derive(@debug.Debug)
+pub fn PathResult::contains_node(Self, String) -> Bool
+pub fn PathResult::node_names(Self) -> Array[String]
+pub fn PathResult::resistor_ids(Self) -> Array[Int]
+
+pub(all) enum PathStatus {
+  Found
+  EmptyNetwork
+  UnknownSource
+  UnknownTarget
+  Unreachable
+  InvalidResistance
+  NoDriver
+  MultipleDrivers
+} derive(Eq, @debug.Debug)
+pub fn PathStatus::label(Self) -> String
+
+pub(all) struct ReachabilityResult {
+  status : PathStatus
+  net_name : String
+  source : String
+  reachable : Array[ReachableNode]
+  unreachable_nodes : Array[String]
+  farthest : ReachableNode?
+} derive(@debug.Debug)
+
+pub(all) struct ReachableNode {
+  node_id : Int
+  node_name : String
+  resistance : Double
+  edge_count : Int
+} derive(@debug.Debug)
+
+type SearchState derive(@debug.Debug)
+
+// Type aliases
+
+// Traits

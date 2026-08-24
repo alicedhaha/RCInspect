@@ -1,0 +1,61 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "alicedhaha/moonrcinspect/src/coupling"
+
+import {
+  "alicedhaha/moonrcinspect/src/model",
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn analyze(@model.RCNetwork) -> CouplingReport
+
+// Errors
+
+// Types and methods
+pub(all) struct CouplingLink {
+  source_net : String
+  source_node : String
+  target_node : String
+  target_net : String?
+  capacitance : Double
+  capacitor_id : Int
+  resolved : Bool
+} derive(@debug.Debug)
+
+pub(all) struct CouplingPair {
+  first_net : String
+  second_net : String
+  capacitance : Double
+  element_count : Int
+} derive(@debug.Debug)
+
+pub(all) struct CouplingReport {
+  total_coupling_capacitance : Double
+  resolved_capacitance : Double
+  unresolved_capacitance : Double
+  link_count : Int
+  resolved_link_count : Int
+  unresolved_link_count : Int
+  links : Array[CouplingLink]
+  pairs : Array[CouplingPair]
+  nets : Array[NetCouplingStats]
+} derive(@debug.Debug)
+pub fn CouplingReport::find_net(Self, String) -> NetCouplingStats?
+pub fn CouplingReport::strongest_pairs(Self, limit? : Int) -> Array[CouplingPair]
+
+pub(all) struct NetCouplingStats {
+  net_name : String
+  outgoing_capacitance : Double
+  incoming_capacitance : Double
+  internal_capacitance : Double
+  unresolved_capacitance : Double
+  resolved_links : Int
+  unresolved_links : Int
+  partners : Array[String]
+  strongest_partner : String?
+  strongest_partner_capacitance : Double
+} derive(@debug.Debug)
+
+// Type aliases
+
+// Traits

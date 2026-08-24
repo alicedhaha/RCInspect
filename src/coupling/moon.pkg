@@ -1,0 +1,7 @@
+import {
+  "alicedhaha/moonrcinspect/src/model",
+}
+
+import {
+  "alicedhaha/moonrcinspect/src/parser",
+} for "test"

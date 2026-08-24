@@ -47,3 +47,48 @@ test "CLI rejects command-specific option misuse" {
     @cli.parse_config(["audit", "input.spef", "--format", "dot"]) is Err(_),
   )
 }
+
+///|
+test "CLI parses and executes path, coupling, and reduction workflows" {
+  let source =
+    #|*SPEF "IEEE 1481-1998"
+    #|*C_UNIT 1 FF
+    #|*R_UNIT 1 OHM
+    #|*D_NET n 2
+    #|*CONN
+    #|*P n O
+    #|*I sink I
+    #|*CAP
+    #|1 n 1
+    #|2 sink 1
+    #|*RES
+    #|1 n sink 5
+    #|*END
+  let path = @cli.execute(
+    @cli.parse_config([
+      "path", "input.spef", "--net", "n", "--from", "n", "--to", "sink", "--format",
+      "json",
+    ]).unwrap(),
+    source,
+  )
+  assert_false(path.failed)
+  assert_true(path.content.contains("\"total_resistance_ohm\":5"))
+  let coupling = @cli.execute(
+    @cli.parse_config(["coupling", "input.spef", "--format", "csv"]).unwrap(),
+    source,
+  )
+  assert_false(coupling.failed)
+  assert_true(coupling.content.contains("source_net,source_node"))
+  let reduction = @cli.execute(
+    @cli.parse_config(["reduce", "input.spef", "--format", "json"]).unwrap(),
+    source,
+  )
+  assert_false(reduction.failed)
+  assert_true(reduction.content.contains("moonrcinspect.reduction.v1"))
+  let matrix = @cli.execute(
+    @cli.parse_config(["matrix", "input.spef", "--net", "n", "--format", "json"]).unwrap(),
+    source,
+  )
+  assert_false(matrix.failed)
+  assert_true(matrix.content.contains("moonrcinspect.path-matrix.v1"))
+}

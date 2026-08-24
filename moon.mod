@@ -11,7 +11,7 @@
 
 name = "alicedhaha/moonrcinspect"
 
-version = "0.1.0"
+version = "0.2.0"
 
 readme = "README.md"
 
@@ -19,7 +19,7 @@ repository = "https://github.com/alicedhaha/RCInspect"
 
 license = "MIT"
 
-keywords = [ "eda", "spef", "parasitics", "rc-network", "elmore-delay" ]
+keywords = [ "eda", "spef", "parasitics", "rc-network", "signal-integrity" ]
 
 preferred_target = "native"
 

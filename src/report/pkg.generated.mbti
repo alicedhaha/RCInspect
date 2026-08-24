@@ -4,19 +4,50 @@ package "alicedhaha/moonrcinspect/src/report"
 import {
   "alicedhaha/moonrcinspect/src/analyzer",
   "alicedhaha/moonrcinspect/src/audit",
+  "alicedhaha/moonrcinspect/src/coupling",
   "alicedhaha/moonrcinspect/src/model",
+  "alicedhaha/moonrcinspect/src/path",
+  "alicedhaha/moonrcinspect/src/reduction",
 }
 
 // Values
 pub fn audit_to_json(@audit.AuditReport) -> String
 
+pub fn audit_to_sarif(@audit.AuditReport) -> String
+
 pub fn audit_to_text(@audit.AuditReport) -> String
 
+pub fn coupling_to_csv(@coupling.CouplingReport) -> String
+
+pub fn coupling_to_json(@coupling.CouplingReport) -> String
+
+pub fn coupling_to_text(@coupling.CouplingReport) -> String
+
 pub fn markdown_report(@model.RCNetwork, @analyzer.DesignMetrics, @audit.AuditReport) -> String
+
+pub fn matrix_to_csv(@path.PathMatrix) -> String
+
+pub fn matrix_to_json(@path.PathMatrix) -> String
+
+pub fn matrix_to_text(@path.PathMatrix) -> String
+
+pub fn metrics_to_csv(@analyzer.DesignMetrics) -> String
 
 pub fn metrics_to_json(@analyzer.DesignMetrics) -> String
 
 pub fn metrics_to_text(@analyzer.DesignMetrics) -> String
+
+pub fn path_to_csv(@path.PathResult) -> String
+
+pub fn path_to_json(@path.PathResult) -> String
+
+pub fn path_to_text(@path.PathResult) -> String
+
+pub fn reduction_to_csv(@reduction.DesignReduction) -> String
+
+pub fn reduction_to_json(@reduction.DesignReduction) -> String
+
+pub fn reduction_to_text(@reduction.DesignReduction) -> String
 
 // Errors
 

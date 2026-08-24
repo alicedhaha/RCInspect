@@ -33,11 +33,14 @@ Graphviz 布局。MoonRCInspect 聚焦 SPEF 与提取后寄生 RC 审计，不�
 - 显式 `Design`、`RCNetwork`、`Net`、`Pin`、`Node`、`Resistor` 和
   `Capacitor` 公共数据模型；
 - RC 邻接图、连通分量、孤立节点、环、最大度数和驱动节点分析；
+- 最小电阻/最少跳数路径、驱动关键路径、可达性和全网电阻距离矩阵；
+- 跨 `*D_NET` 耦合端点解析、网络对聚合、最强耦合伙伴和未解析端点统计；
+- 基于路径电阻、寄生电容和引脚负载的首阶矩保持 RC 降阶摘要；
 - 网络/设计级 R、C、规模、均值、极值、电容偏差、异常网络与复杂度统计；
 - 满足单驱动连通 RC 树前提时的 Elmore delay；
 - 稳定规则 ID、严重度、源码位置和修复建议组成的数据审计报告；
-- 确定性 JSON、Graphviz DOT、文本和 Markdown 输出；
-- `parse`、`analyze`、`audit`、`visualize`、`report` CLI 子命令。
+- 确定性 JSON、Graphviz DOT、CSV、SARIF、文本和 Markdown 输出；
+- 九个覆盖解析、分析、审计、可视化、路径、矩阵、耦合与降阶的 CLI 子命令。
 
 ## 支持边界
 
@@ -74,9 +77,12 @@ SPEF text
 - `src/parser`：Lexer、AST、Parser 和模型构建；
 - `src/graph`：面向电阻拓扑的图算法；
 - `src/analyzer`：统计、复杂度和 Elmore delay；
+- `src/path`：最小电阻/跳数路径、可达性、电阻矩阵和电气直径；
+- `src/coupling`：跨网络耦合解析、聚合和伙伴排名；
+- `src/reduction`：首阶矩保持 RC 降阶和负载摘要；
 - `src/audit`：可组合审计规则；
 - `src/visual`：JSON 与 DOT；
-- `src/report`：文本、JSON 和 Markdown 报告；
+- `src/report`：文本、JSON、CSV、SARIF 和 Markdown 报告；
 - `src/cli`：纯命令配置与执行逻辑；
 - `cmd/moonrc`：native IO 入口。
 
@@ -107,6 +113,12 @@ moon run cmd/moonrc -- --help
 
 项目只依赖官方 `moonbitlang/async` 来完成 native 文件 IO。解析、模型、图算法、分析、
 审计和序列化逻辑均在本仓库中用 MoonBit 实现。
+
+安装已发布的库版本：
+
+```bash
+moon add alicedhaha/moonrcinspect@0.2.0
+```
 
 ## 快速开始
 
@@ -150,6 +162,21 @@ moon run cmd/moonrc -- parse examples/small.spef -o small.json
 moon run cmd/moonrc -- report examples/small.spef -o report.md
 ```
 
+查询节点间最小电阻路径和全网电阻距离矩阵：
+
+```bash
+moon run cmd/moonrc -- path examples/small.spef --net clk --from clk --to u_buf:A
+moon run cmd/moonrc -- matrix examples/small.spef --net clk --format csv
+```
+
+分析跨网络耦合关系并生成降阶 RC 摘要：
+
+```bash
+moon run cmd/moonrc -- coupling examples/medium.spef --format json
+moon run cmd/moonrc -- reduce examples/medium.spef --format csv
+moon run cmd/moonrc -- audit examples/invalid.spef --format sarif -o audit.sarif
+```
+
 ## CLI
 
 ```text
@@ -158,6 +185,10 @@ moonrc analyze <file.spef> [--format text|json] [-o FILE]
 moonrc audit <file.spef> [--strict] [--format text|json] [-o FILE]
 moonrc visualize <file.spef> [--net NAME] [--format dot|json] [-o FILE]
 moonrc report <file.spef> [--format markdown|json] [-o FILE]
+moonrc path <file.spef> --net NET --from NODE --to NODE [--mode resistance|hops] [--format text|json|csv]
+moonrc matrix <file.spef> --net NET [--format text|json|csv] [-o FILE]
+moonrc coupling <file.spef> [--format text|json|csv] [-o FILE]
+moonrc reduce <file.spef> [--format text|json|csv] [-o FILE]
 ```
 
 `audit --strict` 会把所有 warning 提升为 error，适合 CI 门禁。JSON schema 使用带版本的
@@ -183,8 +214,9 @@ moon test
 moon test --deny-warn
 ```
 
-测试覆盖模型单位、Lexer、Parser、错误恢复、Name Map、拓扑、Elmore、审计规则、
-空网络、悬空 R/C 节点、JSON/DOT/Markdown、CLI 参数和完整多网络工作流。样例包括：
+40 个测试覆盖模型单位、Lexer、Parser、错误恢复、Name Map、拓扑、Elmore、路径查询、
+电阻矩阵、耦合分析、RC 降阶、审计规则、空网络、悬空 R/C 节点、JSON/DOT/CSV/SARIF/
+Markdown、CLI 参数和完整多网络工作流。样例包括：
 
 - `examples/small.spef`：单个分支 RC 树；
 - `examples/medium.spef`：三个网络与耦合电容；
@@ -197,7 +229,7 @@ moon test --deny-warn
 - Parser 与模型分离，语法问题不会破坏已成功解析的部分数据；
 - 所有 R/C 值先归一化到 SI，避免跨文件单位误判；
 - Elmore 前置条件显式建模，错误拓扑不会静默产生数值；
-- 审计问题有稳定 ID 和修复建议，可用于 CI 与后续 SARIF 适配；
+- 审计问题有稳定 ID、修复建议和 SARIF 2.1.0 输出，可直接接入代码扫描；
 - 输出顺序确定，便于快照、版本对比和可重复构建；
 - 核心 API 是纯函数，native IO 只存在于极薄的 executable 包。
 
@@ -206,8 +238,8 @@ moon test --deny-warn
 - `*R_NET` 和更多 IEEE 1481 可选段；
 - 大文件流式 Lexer/Parser 与内存上限；
 - 耦合电容策略配置和跨网络索引；
-- RC tree reduction、路径查询和更丰富的延迟统计；
-- SARIF、CSV 和 HTML 报告；
+- 更严格的矩匹配 RC tree reduction 和可配置降阶策略；
+- HTML 报告和 GitHub Code Scanning 上传示例；
 - 与 Verilog 网表、布局坐标和时序约束的交叉检查；
 - 性能基准和真实但可再分发的公开 SPEF corpus。
 

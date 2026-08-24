@@ -4,6 +4,9 @@ import {
   "alicedhaha/moonrcinspect/src/analyzer",
   "alicedhaha/moonrcinspect/src/audit",
   "alicedhaha/moonrcinspect/src/visual",
+  "alicedhaha/moonrcinspect/src/path",
+  "alicedhaha/moonrcinspect/src/coupling",
+  "alicedhaha/moonrcinspect/src/reduction",
 }
 
 import {
