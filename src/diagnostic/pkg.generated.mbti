@@ -1,0 +1,47 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "alicedhaha/moonrcinspect/src/diagnostic"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+
+// Errors
+
+// Types and methods
+pub(all) struct Diagnostic {
+  code : String
+  severity : Severity
+  message : String
+  suggestion : String?
+  span : SourceSpan?
+  net : String?
+} derive(Eq, @debug.Debug)
+pub fn Diagnostic::error(String, String, span? : SourceSpan, suggestion? : String, net? : String) -> Self
+pub fn Diagnostic::info(String, String, span? : SourceSpan, suggestion? : String, net? : String) -> Self
+pub fn Diagnostic::warning(String, String, span? : SourceSpan, suggestion? : String, net? : String) -> Self
+
+pub(all) enum Severity {
+  Info
+  Warning
+  Error
+} derive(Eq, @debug.Debug)
+pub fn Severity::label(Self) -> String
+
+pub(all) struct SourcePos {
+  offset : Int
+  line : Int
+  column : Int
+} derive(Eq, @debug.Debug)
+
+pub(all) struct SourceSpan {
+  file : String
+  start : SourcePos
+  end : SourcePos
+} derive(Eq, @debug.Debug)
+pub fn SourceSpan::synthetic(String) -> Self
+
+// Type aliases
+
+// Traits
