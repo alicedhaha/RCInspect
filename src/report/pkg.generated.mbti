@@ -1,0 +1,27 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "alicedhaha/moonrcinspect/src/report"
+
+import {
+  "alicedhaha/moonrcinspect/src/analyzer",
+  "alicedhaha/moonrcinspect/src/audit",
+  "alicedhaha/moonrcinspect/src/model",
+}
+
+// Values
+pub fn audit_to_json(@audit.AuditReport) -> String
+
+pub fn audit_to_text(@audit.AuditReport) -> String
+
+pub fn markdown_report(@model.RCNetwork, @analyzer.DesignMetrics, @audit.AuditReport) -> String
+
+pub fn metrics_to_json(@analyzer.DesignMetrics) -> String
+
+pub fn metrics_to_text(@analyzer.DesignMetrics) -> String
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
