@@ -1,0 +1,84 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "alicedhaha/moonrcinspect/src/analyzer"
+
+import {
+  "alicedhaha/moonrcinspect/src/model",
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn analyze(@model.RCNetwork) -> DesignMetrics
+
+pub fn analyze_net(@model.Net) -> NetMetrics
+
+pub fn elmore_delay(@model.Net) -> ElmoreResult
+
+pub fn highest_complexity(DesignMetrics, limit? : Int) -> Array[NetMetrics]
+
+// Errors
+
+// Types and methods
+pub(all) struct DesignMetrics {
+  net_count : Int
+  node_count : Int
+  connection_count : Int
+  resistor_count : Int
+  capacitor_count : Int
+  total_resistance : Double
+  total_capacitance : Double
+  average_net_resistance : Double
+  average_net_capacitance : Double
+  max_resistance_net : String?
+  max_capacitance_net : String?
+  anomalous_net_count : Int
+  anomalous_nets : Array[String]
+  nets : Array[NetMetrics]
+} derive(@debug.Debug)
+
+pub(all) struct ElmoreResult {
+  status : ElmoreStatus
+  root : Int?
+  node_delays : Array[NodeDelay]
+  max_delay_seconds : Double
+  coupling_policy : String
+} derive(@debug.Debug)
+
+pub(all) enum ElmoreStatus {
+  ExactTree
+  EmptyNetwork
+  NoDriver
+  MultipleDrivers
+  Disconnected
+  Cyclic
+} derive(Eq, @debug.Debug)
+pub fn ElmoreStatus::label(Self) -> String
+
+pub(all) struct NetMetrics {
+  net_id : Int
+  name : String
+  node_count : Int
+  connection_count : Int
+  resistor_count : Int
+  capacitor_count : Int
+  total_resistance : Double
+  detailed_capacitance : Double
+  declared_capacitance : Double
+  capacitance_delta : Double
+  connected_components : Int
+  isolated_node_count : Int
+  has_cycle : Bool
+  max_degree : Int
+  complexity_score : Int
+  anomalous : Bool
+  anomaly_reasons : Array[String]
+} derive(@debug.Debug)
+
+pub(all) struct NodeDelay {
+  node_id : Int
+  delay_seconds : Double
+  downstream_capacitance : Double
+} derive(@debug.Debug)
+
+// Type aliases
+
+// Traits
